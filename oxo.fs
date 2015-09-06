@@ -9,9 +9,6 @@ variable best-squares 8 cells allot
 ( who was the last player? used to determine whose move it is )
 variable last-player
 
-( who is currently moving? used to work out blocking moves etc. )
-variable current-player
-
 ( current move on board. 0 - 8 )
 variable current-move
 
@@ -30,11 +27,14 @@ variable move-count
 : o? ( n -- o? )
    o = ;
 
-: other-player ( p -- ^p )
-   negate ;
+: first-play? ( -- first? )
+   last-player @ 0= ;
 
-: previous-player ( -- p )
-   current-player @ other-player ;
+: last-player-x? ( -- last-x? )
+   last-player @ x? ;
+
+: last-player-o? ( -- last-o? )
+   last-player @ o? ;
 
 : move-xy ( n -- x y )
    3 /mod ;
@@ -93,12 +93,12 @@ variable move-count
    win-check? ;
 
 : block-required? ( n1 n2 -- block? )
-   previous-player rot rot
+   last-player @ rot rot
    quick-win? ;
 
 : find-blocking-move ( -- n/-1 )
    -1
-   last-player @ 0 <> if
+   first-play? 0= if
    9 0 do
      i oxo-element @ empty? if
      i 0= if
@@ -196,15 +196,6 @@ variable move-count
 
 : free? ( n -- free? )
    oxo-element @ empty? ;
-
-: first-play? ( -- first? )
-   last-player @ 0= ;
-
-: last-player-x? ( -- last-x? )
-   last-player @ x? ;
-
-: last-player-o? ( -- last-o? )
-   last-player @ o? ;
 
 : x-play-valid? ( -- valid-play-x? )
    first-play? last-player-o? or ;
@@ -304,7 +295,6 @@ variable move-count
    then ;
 
 : player! ( index value -- )
-   dup current-player !
    swap dup current-move !
    dup remove-best-square
    swap dup rot oxo-element !
