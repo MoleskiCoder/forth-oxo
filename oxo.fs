@@ -100,6 +100,7 @@ variable move-count
    -1
    last-player @ 0 <> if
    9 0 do
+     i oxo-element @ empty? if
      i 0= if
        1 2 block-required?
        3 6 block-required?
@@ -150,6 +151,7 @@ variable move-count
        6 7 block-required?
        2 5 block-required?
        or or if drop i leave then
+     then
      then
    loop
    then ;
