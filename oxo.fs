@@ -98,46 +98,55 @@ variable move-count
    last-player @ 0 <> if
    9 0 do
      i 0= if
-       1 2 block-required? if drop i leave then
-       3 6 block-required? if drop i leave then
-       4 8 block-required? if drop i leave then
+       1 2 block-required?
+       3 6 block-required?
+       4 8 block-required?
+       or or if drop i leave then
      then
      i 1 = if
-       0 2 block-required? if drop i leave then
-       4 7 block-required? if drop i leave then
+       0 2 block-required?
+       4 7 block-required?
+       or if drop i leave then
      then
      i 2 = if
-       0 1 block-required? if drop i leave then
-       5 8 block-required? if drop i leave then
-       4 6 block-required? if drop i leave then
+       0 1 block-required?
+       5 8 block-required?
+       4 6 block-required?
+       or or if drop i leave then
      then
      i 3 = if
-       0 6 block-required? if drop i leave then
-       4 5 block-required? if drop i leave then
+       0 6 block-required?
+       4 5 block-required?
+       or if drop i leave then
      then
      i 4 = if
-       1 7 block-required? if drop i leave then
-       3 5 block-required? if drop i leave then
-       0 8 block-required? if drop i leave then
-       6 2 block-required? if drop i leave then
+       1 7 block-required?
+       3 5 block-required?
+       0 8 block-required?
+       6 2 block-required?
+       or or or if drop i leave then
      then
      i 5 = if
-       3 4 block-required? if drop i leave then
-       2 8 block-required? if drop i leave then
+       3 4 block-required?
+       2 8 block-required?
+       or if drop i leave then
      then
      i 6 = if
-       0 3 block-required? if drop i leave then
-       7 8 block-required? if drop i leave then
-       4 2 block-required? if drop i leave then
+       0 3 block-required?
+       7 8 block-required?
+       4 2 block-required?
+       or or if drop i leave then
      then
      i 7 = if
-       1 4 block-required? if drop i leave then
-       6 8 block-required? if drop i leave then
+       1 4 block-required?
+       6 8 block-required?
+       or if drop i leave then
      then
      i 8 = if
-       0 4 block-required? if drop i leave then
-       6 7 block-required? if drop i leave then
-       2 5 block-required? if drop i leave then
+       0 4 block-required?
+       6 7 block-required?
+       2 5 block-required?
+       or or if drop i leave then
      then
    loop
    then ;
