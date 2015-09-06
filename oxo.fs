@@ -18,14 +18,17 @@ variable current-move
 ( how many moves, so far?  used to determine draw. )
 variable move-count
 
+1 constant x
+-1 constant o
+
 : empty? ( n -- empty? )
    0= ;
 
 : x? ( n -- x? )
-   1 = ;
+   x = ;
 
 : o? ( n -- o? )
-   -1 = ;
+   o = ;
 
 : other-player ( p -- ^p )
    negate ;
@@ -311,7 +314,7 @@ variable move-count
 : x! ( n -- )
    x-play-valid? if
      1- dup free? if
-       1 player!
+       x player!
      else
        drop ." Square already played." cr
      then
@@ -330,7 +333,7 @@ variable move-count
 : o! ( n -- )
    o-play-valid? if
      1- dup free? if
-       -1 player!
+       o player!
      else
        drop ." Square already played." cr
      then
