@@ -217,14 +217,15 @@ variable move-count
        space bar
      then
    loop
-   .next-best-square cr ;
+   cr ;
 
 : new-oxo-game ( -- )
    oxo-data 9 cells erase
    0 last-player !
    0 move-count !
    initialise-best-squares
-   oxo? ;
+   oxo?
+   .next-best-square ;
 
 : second-diagonal ( -- v2 v4 v6 )
    ( 2 4 6 )
@@ -291,6 +292,8 @@ variable move-count
    else
      draw? if
        ." It's a draw!" cr
+     else
+       .next-best-square cr
      then
    then ;
 
