@@ -9,13 +9,13 @@ variable best-squares 8 cells allot
 ( who was the last player? used to determine whose move it is )
 variable last-player
 
-(  who is currently moving? used to work out blocking moves etc. )
+( who is currently moving? used to work out blocking moves etc. )
 variable current-player
 
 ( current move on board. 0 - 8 )
 variable current-move
 
-( how many moves, so far?  used to determine draw. )
+( how many moves, so far? used to determine draw. )
 variable move-count
 
 1 constant x
@@ -90,11 +90,11 @@ variable move-count
    oxo-element @
    swap
    oxo-element @
-   win-check?  ;
+   win-check? ;
 
 : block-required? ( n1 n2 -- block? )
    previous-player rot rot
-   quick-win?  ;
+   quick-win? ;
 
 : find-blocking-move ( -- n/-1 )
    -1
