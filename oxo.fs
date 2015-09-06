@@ -302,8 +302,8 @@ variable move-count
    dup remove-best-square
    swap dup rot oxo-element !
    oxo?
-   end-checks
    last-player !
+   end-checks
    cr ;
 
 : x! ( n -- )
