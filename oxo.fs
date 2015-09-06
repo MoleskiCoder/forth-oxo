@@ -175,24 +175,31 @@ variable move-count
      1+ cr ." The next best square is: " . cr
    then ;
 
-: x-piece ( -- )
+: .x-piece ( -- )
    [char] x emit ;
 
-: o-piece ( -- )
+: .o-piece ( -- )
    [char] o emit ;
 
-: bar ( -- )
+: .bar ( -- )
    [char] | emit ;
 
-: hyphen ( -- )
+: .hyphen ( -- )
    [char] - emit ;
 
+: .piece ( v -- )
+   dup empty? if
+     space drop
+   else
+     x? if
+       .x-piece
+     else
+       .o-piece
+     then
+   then ;
+
 : oxo-element? ( n -- )
-   oxo-element @ dup
-   empty? if space drop else
-   x? if x-piece else
-     o-piece
-   then then ;
+   oxo-element @ .piece ;
 
 : free? ( n -- free? )
    oxo-element @ empty? ;
@@ -203,18 +210,18 @@ variable move-count
 : o-play-valid? ( -- valid-play-o? )
    first-play? last-player-x? or ;
 
-: hyphen-row ( -- )
-   11 0 do hyphen loop ;
+: .hyphen-row ( -- )
+   11 0 do .hyphen loop ;
 
-: oxo? ( -- )
+: .oxo-board ( -- )
    cr
    9 0 do
      space i oxo-element?
      i 1+ 3 mod 0= if
        cr
-       i 7 < if hyphen-row cr then
+       i 7 < if .hyphen-row cr then
      else
-       space bar
+       space .bar
      then
    loop
    cr ;
@@ -224,7 +231,7 @@ variable move-count
    0 last-player !
    0 move-count !
    initialise-best-squares
-   oxo?
+   .oxo-board
    .next-best-square ;
 
 : second-diagonal ( -- v2 v4 v6 )
@@ -286,7 +293,7 @@ variable move-count
    move-count @ 1+ dup move-count !
    8 > ;
 
-: end-checks ( -- )
+: .end-checks ( -- )
    win? if
      ." You won!" cr
    else
@@ -301,9 +308,9 @@ variable move-count
    swap dup current-move !
    dup remove-best-square
    swap dup rot oxo-element !
-   oxo?
+   .oxo-board
    last-player !
-   end-checks
+   .end-checks
    cr ;
 
 : x! ( n -- )
