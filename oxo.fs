@@ -18,6 +18,12 @@ variable move-count
 1 constant x
 -1 constant o
 
+: move-invalid?
+   -1 = ;
+
+: dup-move-invalid?
+   dup move-invalid? ;
+
 : empty? ( n -- empty? )
    0= ;
 
@@ -53,6 +59,9 @@ variable move-count
 
 : oxo-element ( index -- address )
    cells oxo-data + ;
+
+: free? ( n -- free? )
+   oxo-element @ empty? ;
 
 : oxo-element-xy ( x y -- address )
    xy-move oxo-element ;
@@ -93,14 +102,14 @@ variable move-count
    win-check? ;
 
 : block-required? ( n1 n2 -- block? )
-   last-player @ rot rot
+   last-player @ -rot
    quick-win? ;
 
 : find-blocking-move ( -- n/-1 )
    -1
    first-play? 0= if
    9 0 do
-     i oxo-element @ empty? if
+     i free? if
      i 0= if
        1 2 block-required?
        3 6 block-required?
@@ -157,19 +166,18 @@ variable move-count
    then ;
 
 : next-best-square ( -- n )
-   find-blocking-move dup -1 = if
+   find-blocking-move dup-move-invalid? if
      9 0 do
-       i best-element @ dup -1 <> if
-         swap drop leave
-       else
+       i best-element @ dup-move-invalid? if
          drop
+       else
+         swap drop leave
        then
      loop
    then ;
 
 : .next-best-square ( -- )
-   next-best-square dup
-   -1 = if
+   next-best-square dup-move-invalid? if
      drop
    else
      1+ cr ." The next best square is: " . cr
@@ -200,9 +208,6 @@ variable move-count
 
 : oxo-element? ( n -- )
    oxo-element @ .piece ;
-
-: free? ( n -- free? )
-   oxo-element @ empty? ;
 
 : x-play-valid? ( -- valid-play-x? )
    first-play? last-player-o? or ;
@@ -247,12 +252,10 @@ variable move-count
    8 oxo-element @ ;
 
 : win-check-second-diagonal? ( -- win? )
-   second-diagonal
-   win-check? ;
+   second-diagonal win-check? ;
 
 : win-check-first-diagonal? ( -- win? )
-   first-diagonal
-   win-check? ;
+   first-diagonal win-check? ;
 
 : diagonal-win? ( -- win? )
    current-move 2 mod 0= if
@@ -265,15 +268,15 @@ variable move-count
 
 : win-check-row? ( y -- win? )
    dup dup
-   0 swap oxo-element-xy @ rot rot
-   1 swap oxo-element-xy @ rot rot
+   0 swap oxo-element-xy @ -rot
+   1 swap oxo-element-xy @ -rot
    2 swap oxo-element-xy @
    win-check? ;
 
 : win-check-column? ( x -- win? )
    dup dup
-   0 oxo-element-xy @ rot rot
-   1 oxo-element-xy @ rot rot
+   0 oxo-element-xy @ -rot
+   1 oxo-element-xy @ -rot
    2 oxo-element-xy @
    win-check? ;
 
@@ -325,8 +328,7 @@ variable move-count
    then ;
 
 : auto-x! ( -- )
-   next-best-square dup
-   -1 = if
+   next-best-square dup-move-invalid? if
      drop ." No more moves." cr
    else
      1+ x!
@@ -344,8 +346,7 @@ variable move-count
    then ;
 
 : auto-o! ( -- )
-   next-best-square dup
-   -1 = if
+   next-best-square dup-move-invalid? if
      drop ." No more moves." cr
    else
      1+ o!
