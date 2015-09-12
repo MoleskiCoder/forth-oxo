@@ -55,7 +55,7 @@ variable move-count
    current-move-xy drop ;
 
 : current-move-y ( -- y )
-   current-move-xy swap drop ;
+   current-move-xy nip ;
 
 : oxo-element ( index -- address )
    cells oxo-data + ;
@@ -171,7 +171,7 @@ variable move-count
        i best-element @ dup-move-invalid? if
          drop
        else
-         swap drop leave
+         nip leave
        then
      loop
    then ;
