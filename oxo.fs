@@ -1,10 +1,10 @@
 \ oxo board
 
 ( 0 = free, 1 = x, -1 = o )
-variable oxo-data 8 cells allot
+create oxo-data 9 cells allot
 
 ( descending best squares on board. position if available, -1 if not )
-variable best-squares 8 cells allot
+create best-squares 9 cells allot
 
 ( who was the last player? used to determine whose move it is )
 variable last-player
