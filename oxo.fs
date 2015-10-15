@@ -24,6 +24,9 @@ variable move-count
 : dup-move-invalid? ( n -- n f )
    dup move-invalid? ;
 
+: not ( f -- !f )
+   0= ;
+
 : empty? ( n -- empty? )
    0= ;
 
@@ -34,7 +37,7 @@ variable move-count
    o = ;
 
 : first-play? ( -- first? )
-   last-player @ 0= ;
+   last-player @ empty? ;
 
 : last-player-x? ( -- last-x? )
    last-player @ x? ;
@@ -106,64 +109,63 @@ variable move-count
    quick-win? ;
 
 : find-blocking-move ( -- n/-1 )
-   -1
-   first-play? 0= if
+   first-play? not if
    9 0 do
      i free? if
      i 0= if
        1 2 block-required?
        3 6 block-required?
        4 8 block-required?
-       or or if drop i leave then
+       or or if i unloop exit then
      then
      i 1 = if
        0 2 block-required?
        4 7 block-required?
-       or if drop i leave then
+       or if i unloop exit then
      then
      i 2 = if
        0 1 block-required?
        5 8 block-required?
        4 6 block-required?
-       or or if drop i leave then
+       or or if i unloop exit then
      then
      i 3 = if
        0 6 block-required?
        4 5 block-required?
-       or if drop i leave then
+       or if i unloop exit then
      then
      i 4 = if
        1 7 block-required?
        3 5 block-required?
        0 8 block-required?
        6 2 block-required?
-       or or or if drop i leave then
+       or or or if i unloop exit then
      then
      i 5 = if
        3 4 block-required?
        2 8 block-required?
-       or if drop i leave then
+       or if i unloop exit then
      then
      i 6 = if
        0 3 block-required?
        7 8 block-required?
        4 2 block-required?
-       or or if drop i leave then
+       or or if i unloop exit then
      then
      i 7 = if
        1 4 block-required?
        6 8 block-required?
-       or if drop i leave then
+       or if i unloop exit then
      then
      i 8 = if
        0 4 block-required?
        6 7 block-required?
        2 5 block-required?
-       or or if drop i leave then
+       or or if i unloop exit then
      then
      then
    loop
-   then ;
+   then -1 ;
 
 : next-best-square ( -- n )
    find-blocking-move dup-move-invalid? if
