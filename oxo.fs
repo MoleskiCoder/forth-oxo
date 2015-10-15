@@ -206,7 +206,7 @@ variable move-count
      then
    then ;
 
-: oxo-element? ( n -- )
+: .oxo-element ( n -- )
    oxo-element @ .piece ;
 
 : x-play-valid? ( -- valid-play-x? )
@@ -221,7 +221,7 @@ variable move-count
 : .oxo-board ( -- )
    cr
    9 0 do
-     space i oxo-element?
+     space i .oxo-element
      i 1+ 3 mod 0= if
        cr
        i 7 < if .hyphen-row cr then
