@@ -258,7 +258,7 @@ variable move-count
    first-diagonal win-check? ;
 
 : diagonal-win? ( -- win? )
-   current-move 2 mod 0= if
+   current-move @ 2 mod 0= if
      win-check-first-diagonal?
      win-check-second-diagonal?
      or
