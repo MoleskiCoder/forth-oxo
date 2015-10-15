@@ -18,10 +18,10 @@ variable move-count
 1 constant x
 -1 constant o
 
-: move-invalid?
+: move-invalid? ( n -- f )
    -1 = ;
 
-: dup-move-invalid?
+: dup-move-invalid? ( n -- n f )
    dup move-invalid? ;
 
 : empty? ( n -- empty? )
@@ -307,10 +307,10 @@ variable move-count
      then
    then ;
 
-: player! ( index value -- )
-   swap dup current-move !
-   dup remove-best-square
-   swap dup rot oxo-element !
+: player! ( index player -- )
+   over current-move !
+   over remove-best-square
+   swap oxo-element over swap !
    .oxo-board
    last-player !
    .end-checks
